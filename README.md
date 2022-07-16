@@ -1,4 +1,4 @@
-# A TofoList Demo!
+# A TodoList Demo!
 
 koa,ejs
 

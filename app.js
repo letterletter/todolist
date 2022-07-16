@@ -6,11 +6,10 @@ const router = require('koa-router')();
 const path = require('path');
 const app = new Koa();
 
-let unfinished = 1;
+let unfinished = 0;
 let currentPage = 'index';
-let checkAll = false
+let checkAll = false;
 let todoList = [
-  { id: '1', title: '完成项目一', status: 'active' }
 ];
 
 app.use(bodyParser());
@@ -52,8 +51,8 @@ router.post('/save', async (ctx) => {
   todoList.push({ id: Math.random().toString(36).slice(6), title, status: 'active' });
   ++unfinished;
   checkAll = unfinished <= todoList.length ? false : true; 
-  let pathname = currentPage === 'index' ? '/' : '/' + currentPage;
-  await ctx.redirect(pathname);
+  // let pathname = currentPage === 'index' ? '/' : '/' + currentPage;
+  await ctx.redirect(`/${currentPage.replace('index', '')}`);
 })
 
 router.get('/changeStatus/:id', async (ctx) => {
@@ -65,32 +64,29 @@ router.get('/changeStatus/:id', async (ctx) => {
   findItem.status = findItem.status === 'active' ? 'complete' : 'active';
   // 能找到这一项，表明todo项大于0，未完成的个数等于0, 为true
   checkAll = unfinished === 0 ? true : false; 
-  let pathname = currentPage === 'index' ? '/' : '/' + currentPage;
-  await ctx.redirect(pathname);
+  await ctx.redirect(`/${currentPage.replace('index', '')}`);
 })
 
 router.get('/checkall', async (ctx) => {
   checkAll = !checkAll;
-  let pathname = currentPage === 'index' ? '/' : '/' + currentPage;
   changeTodoList(checkAll, currentPage)
-  await ctx.redirect(pathname);
+  await ctx.redirect(`/${currentPage.replace('index', '')}`);
 })
 
 router.post('/delete', async (ctx) => {
   let { id } = ctx.request.body;
   let index = todoList.findIndex(item => item.id === id);
   if (index >= 0) {
-    todoList[index].status === 'active' && --unfinished
+    todoList[index].status === 'active' && --unfinished;
     todoList.splice(index, 1);
-    let pathname = currentPage === 'index' ? '/' : '/' + currentPage;
-    await ctx.redirect(pathname)
+    await ctx.redirect(`/${currentPage.replace('index', '')}`);
   } else {
     ctx.body = `no item exist with ${id}`;
   }
 })
 
 
-app.use(router.routes()).use(router.allowedMethods())
+app.use(router.routes()).use(router.allowedMethods());
 
 app.listen(3000);
 
