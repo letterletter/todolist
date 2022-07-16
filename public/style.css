@@ -3,8 +3,8 @@ ul {
   padding-inline-start: 0;
 }
 ul li {
-  background-color: #ccc;
-  margin-top: 14px;
+  background-color: #8ee8a9;
+  margin-top: 12px;
   padding: 12px;
   border-radius: 20px;
 }
@@ -13,7 +13,10 @@ ul li {
   margin: 0 auto;
 }
 .complete {
-  text-decoration: line-through;
+  text-decoration: line-through rgb(27, 93, 217);
+  text-decoration-thickness: 3px;
+  color: dimgrey;
+  /* text-decoration-color: ; */
 }
 .foot {
   display: flex;
@@ -52,9 +55,20 @@ a .info {
   visibility: hidden;
   float: right;
   margin-right: 20px;
+  margin-top: -4px;
 }
 .liSty:hover .delBtnForm {
   visibility: visible;
+}
+button {
+  border-style: none;
+}
+.delBtnForm button[type="submit"] {
+  font-size: 36px;
+  cursor: pointer;
+  color: white;
+  background-color: transparent;
+  line-height: 32px;
 }
 
 .todoTitle {

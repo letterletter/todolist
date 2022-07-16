@@ -6,7 +6,7 @@
       <input id="opt1" type="checkbox" name="check" <%= checked %> onchange="document.getElementById('form<%- b.id %>').submit()"  />
       <input name="id" type="hidden" value=<%- b.id %> />
     </form>
-    <%- b.title %>
+    <span class="<%= checked ? 'complete' : '' %>"><%- b.title %></span>
     <form method="post" action="/delete" class="delBtnForm" >
       <button type="submit" >×</button>
       <input name="id" type="hidden" value=<%- b.id %> />
