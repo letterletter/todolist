@@ -1,0 +1,16 @@
+<ul id="ulDom" class="myCusUl">
+  <% dataList.forEach(function(b){%>
+  <li class="liSty">
+    <form id=<%= 'form'+ b.id %> class='inlineSty' method="get" action="/changeStatus/<%= b.id %>" >
+      <% let checked = b.status === 'complete' ? "checked" : "" %>
+      <input id="opt1" type="checkbox" name="check" <%= checked %> onchange="document.getElementById('form<%- b.id %>').submit()"  />
+      <input name="id" type="hidden" value=<%- b.id %> />
+    </form>
+    <%- b.title %>
+    <form method="post" action="/delete" class="delBtnForm" >
+      <button type="submit" >×</button>
+      <input name="id" type="hidden" value=<%- b.id %> />
+    </form>
+  </li>
+  <% })%>
+</ul>
