@@ -1,16 +1,29 @@
 <ul id="ulDom" class="myCusUl">
   <% dataList.forEach(function(b){%>
   <li class="liSty">
-    <form id=<%= 'form'+ b.id %> class='inlineSty' method="get" action="/changeStatus/<%= b.id %>" >
-      <% let checked = b.status === 'complete' ? "checked" : "" %>
-      <input id="opt1" type="checkbox" name="check" <%= checked %> onchange="document.getElementById('form<%- b.id %>').submit()"  />
-      <input name="id" type="hidden" value=<%- b.id %> />
-    </form>
-    <span class="<%= checked ? 'complete' : '' %>"><%- b.title %></span>
-    <form method="post" action="/delete" class="delBtnForm" >
-      <button type="submit" >×</button>
-      <input name="id" type="hidden" value=<%- b.id %> />
-    </form>
+    <% if(editId && b.id === editId){ %>
+      <form action="/saveEdit/<%= b.id %>" class="inlineSty"  method="POST">
+      <input class="textInput" 
+          name="title"
+          value="<%= b.title %>"
+        />
+      </form>
+    <% } else { %>
+      <form id=<%= 'form'+ b.id %> class='inlineSty' method="get" action="/changeStatus/<%= b.id %>" >
+        <% let checked = b.status === 'complete' ? "checked" : "" %>
+        <input id="opt1" type="checkbox" name="check" <%= checked %> 
+        onchange="document.getElementById('form<%- b.id %>').submit()"  />
+      </form>
+      <form id=<%= 'titleForm'+ b.id %> class='inlineSty' method="GET" action="/edit/<%= b.id %>" >
+        <span ondblclick="document.getElementById('titleForm<%- b.id %>').submit()" >
+          <%- b.title %>
+        </span>
+      </form>
+      <form method="post" action="/delete" class="delBtnForm" >
+        <button type="submit" >×</button>
+        <input name="id" type="hidden" value=<%- b.id %> />
+      </form>
+    <% } %>
   </li>
   <% })%>
 </ul>

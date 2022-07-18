@@ -22,13 +22,15 @@
           autofocus
         />
       </form>
-      <%-include("todolist", {dataList})  %>
-      <div class="foot">
+      <%-include("todolist", { dataList, editId: editId || 'NaN' })  %>
+      <%-include("footer", { unfinished, pathname }) %>
+      <!-- <div class="foot">
         <a class="info"><%= unfinished %> item left </a>
         <a class="<%= pathname === '/' ? 'active' : '' %>" href="/">all</a>
         <a class="<%= pathname === '/active' ? 'active' : '' %>"  href="/active">active</a>
         <a class="<%= pathname === '/complete' ? 'active' : '' %>"  href="/complete">complete</a></div>
-    </div>
+      </div> -->
+    </div>  
   </body>
   <script>
     // document.getElementById('ulDom').addEventListener('click', function(e) {
