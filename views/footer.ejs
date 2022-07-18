@@ -1,6 +1,8 @@
 <div class="foot">
+  <% let showClearComplete = todoLength > 0 && todoLength - unfinished > 0 %>
   <a class="info"><%= unfinished %> item left </a>
   <a class="<%= pathname === '/' ? 'active' : '' %>" href="/">all</a>
   <a class="<%= pathname === '/active' ? 'active' : '' %>"  href="/active">active</a>
-  <a class="<%= pathname === '/complete' ? 'active' : '' %>"  href="/complete">complete</a></div>
+  <a class="<%= pathname === '/complete' ? 'active' : '' %>"  href="/complete">complete</a>
+  <a class="<%= showClearComplete ? 'showClrComplete' : 'disableShow' %>"  href="/clearComplete">clear Completed</a>
 </div>

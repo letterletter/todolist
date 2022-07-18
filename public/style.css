@@ -9,7 +9,7 @@ ul li {
   border-radius: 20px;
 }
 .container {
-  width: 500px;
+  width: 600px;
   margin: 0 auto;
 }
 .complete {
@@ -30,8 +30,7 @@ a {
   color:rgb(11, 36, 80);
   display: block;
   text-align: center;
-  flex: 1 1 100px; 
-  padding: 8px 16px;
+  padding: 8px 4px;
   border-radius: 4px;
   text-decoration: none;
 }
@@ -39,12 +38,15 @@ a:visited {
   background-color: #19b5ed;
   color: white;
 }
-a .info {
-  flex: 1 1 200;
-}
+
 .active {
   background-color: rgb(225, 210, 205);
 }
+
+.disableShow {
+  display: none;
+}
+
 .inlineSty {
   display: inline;
 }

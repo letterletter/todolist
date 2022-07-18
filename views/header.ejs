@@ -1,0 +1,16 @@
+<p class="todoTitle">Todo List</p>
+<form id="checkform" class="inlineSty" method="get" action="/checkall" >
+  <input type="checkbox" form="checkform" id="checkall"
+    <%= checkAll ? "checked" : "" %>
+    onchange="document.getElementById('checkform').submit()" 
+  /> 
+</form>
+<form action="/save" class="inlineSty"  method="POST">
+  <input
+    class="textInput" 
+    id="title"
+    name="title"
+    placeholder="添加一条待做事项"
+    autofocus
+  />
+</form>

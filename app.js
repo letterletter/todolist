@@ -98,6 +98,12 @@ router.post('/delete', async (ctx) => {
   }
 })
 
+router.get('/clearComplete', async (ctx) => {
+  todoList = todoList.filter(item => item.status === 'active');
+  checkAll = false;
+  await ctx.redirect(currentPage);
+})
+
 router.get('/edit/:id', async (ctx) => {
   editId = ctx.params.id || '';
   await ctx.redirect(currentPage);
@@ -107,7 +113,7 @@ router.post('/saveEdit/:id', async ctx => {
   const { id } = ctx.params;
   const { title } = ctx.request.body;
   let findIndex = todoList.findIndex(item => item.id === id);
-  if (title)  todoList[findIndex].title = title;
+  if (title.trim())  todoList[findIndex].title = title;
   else {
     // 编辑时，title为‘’时，进行删除
     todoList[findIndex].status === 'active' && --unfinished;
