@@ -7,8 +7,10 @@
   <body>
     <div class="container">
       <%-include("header", { checkAll })  %>
-      <%-include("todolist", { dataList, editId })  %>
-      <%-include("footer", { unfinished, pathname, todoLength: dataList.length }) %>
+      <% if(todoLength !== 0){ %>
+        <%-include("todolist", { dataList, editId })  %>
+        <%-include("footer", { unfinished, pathname, todoLength }) %>
+      <% } %>
     </div>  
   </body>
 </html>

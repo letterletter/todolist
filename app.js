@@ -10,7 +10,7 @@ let unfinished = 0; // 未完成个数
 let currentPage = '/'; // '/' || '/active' || '/complete'
 let checkAll = false;
 let todoList = [];
-let editId = ''
+let editId = '';
 
 app.use(bodyParser());
 
@@ -20,14 +20,14 @@ app.use(views(path.join(__dirname, './views'), {
   extension: 'ejs',
 }));
 
-
 router.get('/', async (ctx, next) => {
   await ctx.render('index', { 
     dataList: todoList, 
-    unfinished, 
     pathname: '/', 
+    unfinished, 
     checkAll, 
-    editId 
+    editId,
+    todoLength: todoList.length 
   });
 })
 
@@ -35,10 +35,11 @@ router.get('/active', async (ctx) => {
 
   await ctx.render('index', {
     dataList: todoList.filter(item => item.status === 'active'),
-    unfinished,
     pathname: ctx.request.url,
+    unfinished,
     checkAll,
-    editId
+    editId,
+    todoLength: todoList.length
   });
 })
 
@@ -46,23 +47,28 @@ router.get('/complete', async (ctx) => {
 
   await ctx.render('index', {
     dataList: todoList.filter(item => item.status !== 'active'),
-    unfinished,
     pathname: ctx.request.url,
+    unfinished,
     checkAll,
-    editId
+    editId,
+    todoLength: todoList.length
   });
+})
+
+router.get('/clearComplete', async (ctx) => {
+  todoList = todoList.filter(item => item.status === 'active');
+  checkAll = false;
+  await ctx.redirect(currentPage);
 })
 
 router.post('/save', async (ctx) => {
 
   const { title } = ctx.request.body;
-  if (!title.trim()) {
-    ctx.redirect(currentPage);
-    return
+  if (title.trim()) {
+    todoList.push({ id: Math.random().toString(36).slice(6), title: title.trim(), status: 'active' });
+    ++unfinished;
+    checkAll = false; 
   }
-  todoList.push({ id: Math.random().toString(36).slice(6), title: title.trim(), status: 'active' });
-  ++unfinished;
-  checkAll = unfinished <= todoList.length ? false : true; 
   await ctx.redirect(currentPage);
 })
 
@@ -81,50 +87,45 @@ router.get('/changeStatus/:id', async (ctx) => {
 
 // 全选
 router.get('/checkall', async (ctx) => {
+
   checkAll = !checkAll;
   setTodoListChkAll(checkAll);
   await ctx.redirect(currentPage);
 })
 
 router.post('/delete', async (ctx) => {
+
   let { id } = ctx.request.body;
   let index = todoList.findIndex(item => item.id === id);
-  if (index >= 0) {
-    todoList[index].status === 'active' && --unfinished;
-    todoList.splice(index, 1);
-    await ctx.redirect(currentPage);
-  } else {
-    ctx.body = `no item exist with ${id}`;
-  }
-})
-
-router.get('/clearComplete', async (ctx) => {
-  todoList = todoList.filter(item => item.status === 'active');
-  checkAll = false;
+  if (index >= 0) { 
+    deleteTodoRow(todoList, index)
+  } 
   await ctx.redirect(currentPage);
 })
 
 router.get('/edit/:id', async (ctx) => {
+
   editId = ctx.params.id || '';
   await ctx.redirect(currentPage);
 })
 
+// 保存编辑，编辑提交后，title为‘’时，进行删除
 router.post('/saveEdit/:id', async ctx => {
+
   const { id } = ctx.params;
   const { title } = ctx.request.body;
   let findIndex = todoList.findIndex(item => item.id === id);
-  if (title.trim())  todoList[findIndex].title = title.trim();
-  else {
-    // 编辑时，title为‘’时，进行删除
-    todoList[findIndex].status === 'active' && --unfinished;
-    todoList.splice(findIndex, 1);
-    checkAll = todoList.length < 1 ? false : (unfinished === 0 ? true : false); 
-  }
+  if (title.trim())  
+    todoList[findIndex].title = title.trim();
+  else 
+    deleteTodoRow(todoList, findIndex);
   editId = ''
   await ctx.redirect(currentPage);
 })
+
 // 设置当前页，“/”所有todo项页或/active未完成，或/complete已完成页
 app.use(async (ctx, next) => {
+
   let pageListUrl = ['/', '/active', '/complete'];
   pageListUrl.includes(ctx.request.url) && (currentPage = ctx.request.url)
   await next();
@@ -140,4 +141,9 @@ function setTodoListChkAll(checked) {
   todoList.forEach(element => {
     element.status = status
   });
+}
+function deleteTodoRow(todoList, rowIndex) {
+  todoList[rowIndex].status === 'active' && --unfinished;
+  todoList.splice(rowIndex, 1);
+  checkAll = todoList.length < 1 ? false : (unfinished === 0 ? true : false); 
 }
