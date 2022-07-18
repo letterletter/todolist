@@ -22,14 +22,8 @@
           autofocus
         />
       </form>
-      <%-include("todolist", { dataList, editId: editId || 'NaN' })  %>
+      <%-include("todolist", { dataList, editId })  %>
       <%-include("footer", { unfinished, pathname }) %>
-      <!-- <div class="foot">
-        <a class="info"><%= unfinished %> item left </a>
-        <a class="<%= pathname === '/' ? 'active' : '' %>" href="/">all</a>
-        <a class="<%= pathname === '/active' ? 'active' : '' %>"  href="/active">active</a>
-        <a class="<%= pathname === '/complete' ? 'active' : '' %>"  href="/complete">complete</a></div>
-      </div> -->
     </div>  
   </body>
   <script>
