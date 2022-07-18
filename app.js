@@ -56,11 +56,11 @@ router.get('/complete', async (ctx) => {
 router.post('/save', async (ctx) => {
 
   const { title } = ctx.request.body;
-  if (!title) {
+  if (!title.trim()) {
     ctx.redirect(currentPage);
     return
   }
-  todoList.push({ id: Math.random().toString(36).slice(6), title, status: 'active' });
+  todoList.push({ id: Math.random().toString(36).slice(6), title: title.trim(), status: 'active' });
   ++unfinished;
   checkAll = unfinished <= todoList.length ? false : true; 
   await ctx.redirect(currentPage);
@@ -113,7 +113,7 @@ router.post('/saveEdit/:id', async ctx => {
   const { id } = ctx.params;
   const { title } = ctx.request.body;
   let findIndex = todoList.findIndex(item => item.id === id);
-  if (title.trim())  todoList[findIndex].title = title;
+  if (title.trim())  todoList[findIndex].title = title.trim();
   else {
     // 编辑时，title为‘’时，进行删除
     todoList[findIndex].status === 'active' && --unfinished;
