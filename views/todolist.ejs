@@ -7,17 +7,20 @@
           name="title"
           value="<%= b.title %>"
         />
+      <input name="id" type="hidden" value=<%- b.id %> />
       </form>
     <% } else { %>
-      <form id=<%= 'form'+ b.id %> class='inlineSty' method="get" action="/changeStatus/<%= b.id %>" >
-        <% let checked = b.status === 'complete' ? "checked" : "" %>
-        <input id="opt1" type="checkbox" name="check" <%= checked %> 
+      <form id=<%= 'form'+ b.id %> class='inlineSty' method="post" action="/changeActive" >
+        <% let checked = b.completed ? "checked" : "" %>
+        <input id="opt1" type="checkbox"  <%= checked %> 
         onchange="document.getElementById('form<%- b.id %>').submit()"  />
+        <input name="id" type="hidden" value=<%- b.id %> />
       </form>
-      <form id=<%= 'titleForm'+ b.id %> class='inlineSty' method="GET" action="/edit/<%= b.id %>" >
+      <form id=<%= 'titleForm'+ b.id %> class='inlineSty' method="GET" action="/edit" >
         <span ondblclick="document.getElementById('titleForm<%- b.id %>').submit()" >
           <%- b.title %>
         </span>
+        <input name="id" type="hidden" value=<%- b.id %> />
       </form>
       <form method="post" action="/delete" class="delBtnForm" >
         <button type="submit" >×</button>

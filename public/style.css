@@ -25,6 +25,10 @@ ul li {
   border-radius: 4px;
 }
 
+.info {
+  line-height: 38px;
+}
+
 a {
   font-size: 16px;
   color:rgb(11, 36, 80);
@@ -71,6 +75,13 @@ button {
   color: white;
   background-color: transparent;
   line-height: 32px;
+}
+.clearComplete button[type="submit"] {
+  font-size: 16px;
+  cursor: pointer;
+  color: white;
+  background-color: transparent;
+  line-height: 38px;
 }
 
 .todoTitle {

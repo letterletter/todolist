@@ -1,5 +1,6 @@
+<header>
 <p class="todoTitle">Todo List</p>
-<form id="checkform" class="inlineSty" method="get" action="/checkall" >
+<form id="checkform" class="inlineSty" method="get" action="/checkAll" >
   <input type="checkbox" form="checkform" id="checkall"
     <%= checkAll ? "checked" : "" %>
     onchange="document.getElementById('checkform').submit()" 
@@ -14,3 +15,4 @@
     autofocus
   />
 </form>
+</header>
