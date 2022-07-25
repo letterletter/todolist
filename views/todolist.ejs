@@ -2,9 +2,11 @@
   <% dataList.forEach(function(b){%>
   <li class="liSty">
     <% if(editId && b.id === editId){ %>
-      <form action="/saveEdit/<%= b.id %>" class="inlineSty"  method="POST">
+      <form id="editForm" action="/saveEdit/<%= b.id %>" class="inlineSty"  method="post">
       <input class="textInput" 
           name="title"
+          form="editForm"
+          onblur="this.form,submit()"
           value="<%= b.title %>"
         />
       <input name="id" type="hidden" value=<%- b.id %> />
@@ -12,12 +14,12 @@
     <% } else { %>
       <form id=<%= 'form'+ b.id %> class='inlineSty' method="post" action="/changeActive" >
         <% let checked = b.completed ? "checked" : "" %>
-        <input id="opt1" type="checkbox"  <%= checked %> 
-        onchange="document.getElementById('form<%- b.id %>').submit()"  />
+        <input id="opt1" form=<%= 'form'+ b.id %>  type="checkbox"  <%= checked %> 
+        onchange="this.form.submit()"  />
         <input name="id" type="hidden" value=<%- b.id %> />
       </form>
       <form id=<%= 'titleForm'+ b.id %> class='inlineSty' method="GET" action="/edit" >
-        <span ondblclick="document.getElementById('titleForm<%- b.id %>').submit()" >
+        <span ondblclick="this.parentElement.submit()" >
           <%- b.title %>
         </span>
         <input name="id" type="hidden" value=<%- b.id %> />
