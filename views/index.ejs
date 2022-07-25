@@ -1,16 +1,22 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>todo list</title>
-    <link rel="stylesheet" type="text/css" href="style.css"/>
-  </head>
-  <body>
-    <div class="container">
-      <%-include("header", { checkAll })  %>
-      <% if(todoLength !== 0){ %>
-        <%-include("todolist", { dataList, editId })  %>
-        <%-include("footer", { unfinished, pathname, todoLength }) %>
-      <% } %>
-    </div>  
-  </body>
+
+<head>
+  <title>todo list</title>
+  <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+
+<body>
+  <div class="container">
+    <%-include("header", { checkAll }) %>
+      <% if(todoLength !==0){ %>
+        <%-include("todolist", { dataList, editId }) %>
+          <%-include("footer", { unfinished, pathname, todoLength }) %>
+            <% } %>
+  </div>
+  <script>
+    console.log('sdsds', window.location);
+  </script>
+</body>
+
 </html>

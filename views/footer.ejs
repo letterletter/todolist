@@ -1,10 +1,32 @@
 <footer class="foot">
-  <% let showClearComplete = todoLength > 0 && todoLength - unfinished > 0 %>
-  <span class="info"><%= unfinished %> item left </span>
-  <a class="<%= pathname === '/' ? 'active' : '' %>" href="/">all</a>
-  <a class="<%= pathname === '/active' ? 'active' : '' %>"  href="/active">active</a>
-  <a class="<%= pathname === '/completed' ? 'active' : '' %>"  href="/completed">complete</a>
-  <form class="<%= showClearComplete ? 'showClrComplete' : 'disableShow' %> clearComplete "  action="/clearComplete" method="post">
-    <button type="submit" >clear Completed</button>
-  </form>
+  <% let showClearComplete=todoLength> 0 && todoLength - unfinished > 0 %>
+    <span class="info">
+      <%= unfinished %> item left
+    </span>
+    <a class="<%= pathname === '/' ? 'active' : '' %>" href="/">all</a>
+    <a class="<%= pathname === '/active' ? 'active' : '' %>" href="/active">active</a>
+    <a class="<%= pathname === '/completed' ? 'active' : '' %>" href="/completed">complete</a>
+    <a href="/getAllData" target="activeMain">getAllData</a>
+    <a style="display: block" id="send" target="activeMain">发送消息</a>
+
+    <form class="<%= showClearComplete ? 'showClrComplete' : 'disableShow' %> clearComplete " action="/clearComplete"
+      method="post">
+      <button type="submit">clear Completed</button>
+    </form>
 </footer>
+<!-- <iframe src="footer.ejs" name="activeMain" src="" frameborder="0" width="100" height="200"></iframe> -->
+<!-- <button>发送消息</button> -->
+
+<iframe id="ifr" name="activeMain" src="hash_frame.ejs"></iframe>
+<script>
+  var target = "hash_frame.ejs";
+  function sendMsg(msg) {
+    var data = { msg: msg };
+    var src = target + "#" + JSON.stringify(data);
+    document.getElementById('ifr').src = src;
+  }
+  document.getElementById('send').onclick = function () {
+    console.log('send')
+    sendMsg("Time: " + (new Date()));
+  }
+</script>

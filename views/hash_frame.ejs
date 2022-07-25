@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+
+<body>
+  <div>
+    <!-- <%-include("todolist", { dataList, editId }) %> -->
+
+  </div>
+
+  <script>
+    var oldHash = "";
+    var target = "/getAllData";
+    var checkMessage = function () {
+      var newHash = window.location.hash;
+      if (newHash.length > 1) {
+        newHash = newHash.slice(1, newHash.length);
+        if (newHash !== oldHash) {
+          oldHash = newHash;
+          var msgs = JSON.parse(newHash);
+          var msg = msgs.msg;
+          sendMessage("Hello-father");
+          // document.querySelector('div').innerHTML = msg;
+          document.querySelector('div').innerHTML = ` <%-include("todolist", { dataList: <%- JSON.parse(msg) %>, editId: '' }) %>`
+            ;
+
+        }
+      }
+    }
+    setInterval(checkMessage, 1000);
+    function sendMessage(msg) {
+      var hash = "msg=" + msg;
+      parent.location.href = target + "#" + hash;
+    }
+  </script>
+</body>
+
+</html>
